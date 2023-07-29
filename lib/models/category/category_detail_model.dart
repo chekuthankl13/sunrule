@@ -4,11 +4,15 @@ class CategoryDetail {
 
   CategoryDetail({required this.subCategories, required this.products});
 
-  factory CategoryDetail.fromJson(Map<String, dynamic> json) =>
-      CategoryDetail(
-        subCategories:(json['sub_cat'] as List).isEmpty?[]: List<Subcategories>.from((json['sub_cat'] as List).map((e) => Subcategories.fromJson(e))),
-       products:(json['products'] as List).isEmpty?[]:  List<Product>.from((json['products'] as List).map((e) => Product.fromJson(e)))
-       );
+  factory CategoryDetail.fromJson(Map<String, dynamic> json) => CategoryDetail(
+      subCategories: (json['sub_cat'] as List).isEmpty
+          ? []
+          : List<Subcategories>.from(
+              (json['sub_cat'] as List).map((e) => Subcategories.fromJson(e))),
+      products: (json['products'] as List).isEmpty
+          ? []
+          : List<Product>.from(
+              (json['products'] as List).map((e) => Product.fromJson(e))));
 }
 
 class Subcategories {
@@ -39,6 +43,7 @@ class Product {
   final String price;
   final String offPrice;
   final String offPercen;
+  final String qty;
 
   Product(
       {required this.catId,
@@ -47,6 +52,7 @@ class Product {
       required this.txt,
       required this.img,
       required this.price,
+      required this.qty,
       required this.offPrice,
       required this.offPercen});
 
@@ -56,6 +62,7 @@ class Product {
       id: json['id'],
       txt: json['txt'],
       img: json['img'],
+      qty: json['qty'],
       price: json['price'],
       offPrice: json['off_price'],
       offPercen: json['off_percen']);

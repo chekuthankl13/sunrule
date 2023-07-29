@@ -15,10 +15,10 @@ class CategoryCubit extends Cubit<CategoryState> {
 
       var res = await apiRepository.fetchCategory();
       if (res['status'] == "ok") {
-        var data = res['data'] as Categories;
-        var twoCat = data.category.sublist(0, 2);
-        data.category.removeRange(0, 2);
-        emit(CategoryLoaded(categories: data.category,twoCategories: twoCat));
+        var data = res['data'] as List<CategoryModel>;
+        var twoCat = data.sublist(0, 2);
+        data.removeRange(0, 2);
+        emit(CategoryLoaded(categories: data,twoCategories: twoCat));
       } else {
         emit(CategoryLoadError(error: res['message']));
       }

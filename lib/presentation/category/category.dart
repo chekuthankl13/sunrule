@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sunrule/config/config.dart';
@@ -36,6 +37,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
   Scaffold body(CategoryLoaded state) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Config.violet,
         centerTitle: true,
@@ -124,7 +126,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         create: (context) => DetailsCubit(
                             apiRepository: context.read<ApiRepository>())
                           ..loadDetails(id: data.id),
-                        child: const CategoryDetailScreen(),
+                        child: CategoryDetailScreen(title: data.txt),
                       ),
                     ),
                   );
@@ -156,6 +158,19 @@ class _CategoryPageState extends State<CategoryPage> {
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                             color: Config.violet2),
+                      ),
+                      CachedNetworkImage(
+                        imageUrl: data.img.isNotEmpty
+                            ? data.img
+                            : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1yq3IYQzQ8WsMghplkuU2HC2yTrgvXXipieWjlMnhaMn8WEW1qV-H8w0evI_HSMv2CNM&usqp=CAU",
+                        height: 100,
+                        fit: BoxFit.contain,
+                        placeholder: (context, url) => const Center(
+                          child: Icon(
+                            Icons.fastfood,
+                            color: Colors.grey,
+                          ),
+                        ),
                       )
                     ],
                   ),
@@ -179,7 +194,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 create: (context) =>
                     DetailsCubit(apiRepository: context.read<ApiRepository>())
                       ..loadDetails(id: id),
-                child: const CategoryDetailScreen(),
+                child: CategoryDetailScreen(title: txt),
               ),
             ),
           );
@@ -206,6 +221,19 @@ class _CategoryPageState extends State<CategoryPage> {
                     fontWeight: FontWeight.w400,
                     fontSize: 12,
                     color: Config.violet2),
+              ),
+              CachedNetworkImage(
+                imageUrl: img.isNotEmpty
+                    ? img
+                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1yq3IYQzQ8WsMghplkuU2HC2yTrgvXXipieWjlMnhaMn8WEW1qV-H8w0evI_HSMv2CNM&usqp=CAU",
+                height: 100,
+                fit: BoxFit.contain,
+                placeholder: (context, url) => const Center(
+                  child: Icon(
+                    Icons.fastfood,
+                    color: Colors.grey,
+                  ),
+                ),
               )
             ],
           ),

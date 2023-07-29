@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "198490544047",
+    "project_id": "sunrule-d79c6",
+    "storage_bucket": "sunrule-d79c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198490544047:android:923080635b7893aa1ac15a",
+        "android_client_info": {
+          "package_name": "com.example.sunrule"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "198490544047-vdodm803atv6u0m0k5c4tvgqhpclonjp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIkEcDSny8yitQFCh3GWvdrZNawWfgS5o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "198490544047-vdodm803atv6u0m0k5c4tvgqhpclonjp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
