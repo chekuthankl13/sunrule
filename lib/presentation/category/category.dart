@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sunrule/config/config.dart';
 import 'package:sunrule/logic/bloc_export.dart';
+import 'package:sunrule/presentation/category/category_detail_screen.dart';
 import 'package:sunrule/presentation/widget/error.dart';
 import 'package:sunrule/presentation/widget/loading.dart';
 import 'package:sunrule/utils/utils.dart';
@@ -94,7 +95,10 @@ class _CategoryPageState extends State<CategoryPage> {
             child: Row(
               children: List.generate(
                 state.twoCategories.length,
-                (index) => cat(txt: state.twoCategories[index].txt),
+                (index) => cat(
+                    txt: state.twoCategories[index].txt,
+                    id: state.twoCategories[index].id,
+                    img: state.twoCategories[index].img),
               ).toList(),
             ),
           ),
@@ -112,35 +116,49 @@ class _CategoryPageState extends State<CategoryPage> {
                 mainAxisSpacing: 8),
             itemBuilder: (context, index) {
               var data = state.categories[index];
-              return Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(color: Colors.black12, blurRadius: 1)
-                    ]
-                    // gradient: LinearGradient(
-                    //   colors: [
-                    //     Config.bxClr1.withOpacity(.2),
-                    //     Config.bxClr2.withOpacity(.2),
-                    //   ],
-                    // ),
+              return GestureDetector(
+                onTap: () {
+                  navigatorKey.currentState!.push(
+                    MaterialPageRoute(
+                      builder: (context) => BlocProvider(
+                        create: (context) => DetailsCubit(
+                            apiRepository: context.read<ApiRepository>())
+                          ..loadDetails(id: data.id),
+                        child: const CategoryDetailScreen(),
+                      ),
                     ),
-                child: Column(
-                  children: [
-                    spaceHeight(5),
-                    Text(
-                      data.txt.toString(),
-                      maxLines: 2,
-                      textAlign: TextAlign.center,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Config.violet2),
-                    )
-                  ],
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      boxShadow: const [
+                        BoxShadow(color: Colors.black12, blurRadius: 1)
+                      ]
+                      // gradient: LinearGradient(
+                      //   colors: [
+                      //     Config.bxClr1.withOpacity(.2),
+                      //     Config.bxClr2.withOpacity(.2),
+                      //   ],
+                      // ),
+                      ),
+                  child: Column(
+                    children: [
+                      spaceHeight(5),
+                      Text(
+                        data.txt.toString(),
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: Config.violet2),
+                      )
+                    ],
+                  ),
                 ),
               );
             },
@@ -151,32 +169,46 @@ class _CategoryPageState extends State<CategoryPage> {
     );
   }
 
-  Expanded cat({txt, img}) {
+  Expanded cat({txt, img, id}) {
     return Expanded(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 5),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-            boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 1)]
-            // gradient: LinearGradient(
-            //   colors: [
-            //     Config.bxClr1.withOpacity(.5),
-            //     Config.bxClr2.withOpacity(.5),
-            //   ],
-            // ),
+      child: GestureDetector(
+        onTap: () {
+          navigatorKey.currentState!.push(
+            MaterialPageRoute(
+              builder: (context) => BlocProvider(
+                create: (context) =>
+                    DetailsCubit(apiRepository: context.read<ApiRepository>())
+                      ..loadDetails(id: id),
+                child: const CategoryDetailScreen(),
+              ),
             ),
-        child: Column(
-          children: [
-            spaceHeight(8),
-            Text(
-              txt,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                  color: Config.violet2),
-            )
-          ],
+          );
+        },
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+              boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 1)]
+              // gradient: LinearGradient(
+              //   colors: [
+              //     Config.bxClr1.withOpacity(.5),
+              //     Config.bxClr2.withOpacity(.5),
+              //   ],
+              // ),
+              ),
+          child: Column(
+            children: [
+              spaceHeight(8),
+              Text(
+                txt,
+                style: const TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
+                    color: Config.violet2),
+              )
+            ],
+          ),
         ),
       ),
     );
