@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sunrule/presentation/home/home_screen.dart';
 import 'package:sunrule/utils/utils.dart';
@@ -15,9 +16,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Timer(const Duration(seconds: 3), () {
-      navigatorKey.currentState!.pushReplacement(MaterialPageRoute(
-        builder: (context) =>const HomeScreen(),
-      ),
+      navigatorKey.currentState!.pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
       );
     });
     super.initState();
@@ -25,10 +27,22 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("Splash Screen"),
+    return Scaffold(
+        body: Container(
+      height: sH(context),
+      width: sW(context),
+      decoration: const BoxDecoration(
+          color: Colors.black12,
+          image: DecorationImage(
+              image: AssetImage(
+                "assets/images/splash.jpg",
+              ),
+              opacity: .6,
+              colorFilter: ColorFilter.linearToSrgbGamma(),
+              fit: BoxFit.cover)),
+      child: const Center(
+        child: CupertinoActivityIndicator(),
       ),
-    );
+    ));
   }
 }

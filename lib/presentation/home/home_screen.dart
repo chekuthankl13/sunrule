@@ -32,7 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: const CategoryPage(),
     ),
     const FreshFiesta(),
-    const CartScreen()
+   BlocProvider(
+    create: (context) => MainCartCubit(apiRepository:context.read<ApiRepository>() )..fetchCart(),
+    child:  const CartScreen(),
+   )
   ];
 
   @override

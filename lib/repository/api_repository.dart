@@ -97,13 +97,13 @@ class ApiRepository {
           .collection(Config.cartRef)
           .doc(id)
           .update({"qty": qty, "total_amount": price});
-          var snap = await userCollection
+      var snap = await userCollection
           .doc(Config.userDocu)
           .collection(Config.cartRef)
           .get()
           .then((value) =>
               value.docs.map((e) => CartModel.fromJson(e.data())).toList());
-      return {"status": "ok","data":snap};
+      return {"status": "ok", "data": snap};
     } on FirebaseException catch (e) {
       return {"status": "failed", "message": e.toString()};
     } catch (e) {
@@ -139,6 +139,24 @@ class ApiRepository {
           .then((value) =>
               value.docs.map((e) => CartModel.fromJson(e.data())).toList());
       return {"status": "ok", "data": snap};
+    } on FirebaseException catch (e) {
+      return {"status": "failed", "message": e.toString()};
+    } catch (e) {
+      return {"status": "failed", "message": e.toString()};
+    }
+  }
+
+////// cartStream
+
+  getCartStreams({required userRef}) async {
+    try {
+      var snap = userCollection
+          .doc(userRef)
+          .collection(Config.cartRef)
+          .snapshots();
+      var res = snap.map((event) =>
+          event.docs.map((e) => CartModel.fromJson(e.data())).toList());
+      return {"status": "ok", "data": res};
     } on FirebaseException catch (e) {
       return {"status": "failed", "message": e.toString()};
     } catch (e) {

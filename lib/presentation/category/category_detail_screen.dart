@@ -24,6 +24,10 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<CartBloc>().add(CartLoadEvent());
+    });
+
     return BlocBuilder<DetailsCubit, DetailsState>(
       builder: (context, state) {
         if (state is DetailsLoading) {
@@ -626,9 +630,21 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                       ),
                       TextButton.icon(
                         onPressed: () {
-                          navigatorKey.currentState!.push(MaterialPageRoute(
-                            builder: (context) => const CartScreen(),
-                          ));
+                          navigatorKey.currentState!
+                              .push(
+                            MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                create: (context) => MainCartCubit(
+                                    apiRepository:
+                                        context.read<ApiRepository>())
+                                  ..fetchCart(),
+                                child: const CartScreen(),
+                              ),
+                            ),
+                          )
+                              .then((value) {
+                            context.read<CartBloc>().add(CartLoadEvent());
+                          });
                         },
                         icon: const Icon(
                           CupertinoIcons.bag,
