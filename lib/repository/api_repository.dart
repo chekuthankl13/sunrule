@@ -97,7 +97,13 @@ class ApiRepository {
           .collection(Config.cartRef)
           .doc(id)
           .update({"qty": qty, "total_amount": price});
-      return {"status": "ok"};
+          var snap = await userCollection
+          .doc(Config.userDocu)
+          .collection(Config.cartRef)
+          .get()
+          .then((value) =>
+              value.docs.map((e) => CartModel.fromJson(e.data())).toList());
+      return {"status": "ok","data":snap};
     } on FirebaseException catch (e) {
       return {"status": "failed", "message": e.toString()};
     } catch (e) {

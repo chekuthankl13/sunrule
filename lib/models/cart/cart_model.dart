@@ -1,7 +1,7 @@
 class CartModel {
   final CartPdt product;
   String qty;
-  final String totalAmount;
+   String totalAmount;
    String id;
 
   CartModel(

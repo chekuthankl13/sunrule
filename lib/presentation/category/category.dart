@@ -134,18 +134,18 @@ class _CategoryPageState extends State<CategoryPage> {
                 child: Container(
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(color: Colors.black12, blurRadius: 1)
-                      ]
-                      // gradient: LinearGradient(
-                      //   colors: [
-                      //     Config.bxClr1.withOpacity(.2),
-                      //     Config.bxClr2.withOpacity(.2),
-                      //   ],
-                      // ),
-                      ),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    // boxShadow: const [
+                    //   BoxShadow(color: Colors.black12, blurRadius: 1)
+                    // ]
+                    // gradient: LinearGradient(
+                    //   colors: [
+                    //     Config.bxClr1.withOpacity(.2),
+                    //     Config.bxClr2.withOpacity(.2),
+                    //   ],
+                    // ),
+                  ),
                   child: Column(
                     children: [
                       spaceHeight(5),
@@ -156,7 +156,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                             fontSize: 12,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.bold,
                             color: Config.violet2),
                       ),
                       CachedNetworkImage(
@@ -202,23 +202,23 @@ class _CategoryPageState extends State<CategoryPage> {
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 5),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 1)]
-              // gradient: LinearGradient(
-              //   colors: [
-              //     Config.bxClr1.withOpacity(.5),
-              //     Config.bxClr2.withOpacity(.5),
-              //   ],
-              // ),
-              ),
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white,
+            // boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 1)]
+            // gradient: LinearGradient(
+            //   colors: [
+            //     Config.bxClr1.withOpacity(.5),
+            //     Config.bxClr2.withOpacity(.5),
+            //   ],
+            // ),
+          ),
           child: Column(
             children: [
               spaceHeight(8),
               Text(
                 txt,
                 style: const TextStyle(
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.bold,
                     fontSize: 12,
                     color: Config.violet2),
               ),
@@ -248,7 +248,7 @@ class _CategoryPageState extends State<CategoryPage> {
     return Text(
       txt,
       style: const TextStyle(
-          fontSize: 14, fontWeight: FontWeight.w500, color: Config.shade),
+          fontSize: 14, fontWeight: FontWeight.bold, color: Config.shade),
     );
   }
 }

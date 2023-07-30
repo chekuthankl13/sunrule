@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sunrule/config/config.dart';
 import 'package:sunrule/logic/bloc_export.dart';
 import 'package:sunrule/models/category/category_detail_model.dart';
+import 'package:sunrule/presentation/cart/cart_screen.dart';
 import 'package:sunrule/presentation/widget/empty.dart';
 import 'package:sunrule/presentation/widget/error.dart';
 import 'package:sunrule/presentation/widget/loading.dart';
@@ -113,7 +114,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                       decoration: value == index
                                           ? BoxDecoration(
                                               gradient: LinearGradient(colors: [
-                                                Config.bxClr1.withOpacity(.2),
+                                                Config.bxClr1.withOpacity(.8),
                                                 Config.bxClr1.withOpacity(.5),
                                               ]),
                                               borderRadius:
@@ -262,13 +263,13 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                       mainAxisSpacing: 4),
                               itemBuilder: (context, index) {
                                 var data = value[index];
-                                return Card(
+                                return Container(
                                   margin: EdgeInsets.zero,
-                                  elevation: 1,
-                                  surfaceTintColor: Colors.transparent,
-                                  // shadowColor: Colors.transparent,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
+                                  // elevation: 1,
+                                  // surfaceTintColor: Colors.transparent,
+                                  // // shadowColor: Colors.transparent,
+                                  // shape: RoundedRectangleBorder(
+                                  //     borderRadius: BorderRadius.circular(10)),
                                   color: Colors.white,
                                   child: Column(
                                     crossAxisAlignment:
@@ -303,23 +304,16 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                   child: Container(
                                                     height: 20,
                                                     width: 50,
-                                                    decoration: BoxDecoration(
+                                                    decoration: const BoxDecoration(
                                                         borderRadius:
-                                                            const BorderRadius
-                                                                    .only(
+                                                            BorderRadius.only(
                                                                 topLeft: Radius
                                                                     .circular(
                                                                         10),
                                                                 bottomRight: Radius
                                                                     .circular(
                                                                         10)),
-                                                        color: const Color
-                                                                    .fromARGB(
-                                                                255,
-                                                                183,
-                                                                64,
-                                                                199)
-                                                            .withOpacity(.9)),
+                                                        color: Config.violet2),
                                                     alignment: Alignment.center,
                                                     child: Text(
                                                       "${data.offPercen} % Off",
@@ -404,7 +398,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                       width: 70,
                                                       // padding: EdgeInsets.zero,
                                                       decoration: BoxDecoration(
-                                                          color: Colors.red,
+                                                          color: Config.red,
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(8)),
@@ -475,7 +469,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                               onPressed: () {},
                                                               style: OutlinedButton.styleFrom(
                                                                   foregroundColor:
-                                                                      Colors
+                                                                      Config
                                                                           .red,
                                                                   padding:
                                                                       const EdgeInsets.all(
@@ -486,10 +480,10 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                                   shape: RoundedRectangleBorder(
                                                                       borderRadius:
                                                                           BorderRadius.circular(8)),
-                                                                  side: const BorderSide(color: Colors.red, width: 1)),
+                                                                  side: const BorderSide(color: Config.red, width: 1)),
                                                               child: const CupertinoActivityIndicator(
                                                                 color:
-                                                                    Colors.red,
+                                                                    Config.red,
                                                               ))
                                                           : OutlinedButton(
                                                               onPressed: () {
@@ -504,7 +498,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                               },
                                                               style: OutlinedButton.styleFrom(
                                                                   foregroundColor:
-                                                                      Colors
+                                                                      Config
                                                                           .red,
                                                                   padding:
                                                                       const EdgeInsets
@@ -519,7 +513,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                                           BorderRadius.circular(
                                                                               8)),
                                                                   side: const BorderSide(
-                                                                      color: Colors
+                                                                      color: Config
                                                                           .red,
                                                                       width: 1)),
                                                               child: const Text(
@@ -584,52 +578,58 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                 child: Container(
                   height: kTextTabBarHeight,
                   decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: Config.red,
                       borderRadius: BorderRadius.circular(10)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      BlocBuilder<CartBloc, CartState>(
-                        builder: (context, state) {
-                          return Row(
-                            children: [
-                              spaceWidth(10),
-                              Text(
-                                state.cart.length.toString(),
-                                style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
-                              ),
-                              spaceWidth(5),
-                              const Text(
-                                "Items",
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
-                              ),
-                              spaceWidth(4),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 8),
-                                child: VerticalDivider(
-                                  color: Colors.white,
-                                ),
-                              ),
-                              spaceWidth(4),
-                              Text(
-                                "₹ ${state.cart.map((e) => double.parse(e!.totalAmount)).toList().reduce((value, element) => value + element).toString()}",
-                                style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          );
-                        },
+                      Row(
+                        children: [
+                          spaceWidth(10),
+                          Text(
+                            state.cart
+                                .map((e) => e!.qty)
+                                .toList()
+                                .length
+                                .toString(),
+                            style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          ),
+                          spaceWidth(5),
+                          const Text(
+                            "Items",
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          ),
+                          spaceWidth(4),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: VerticalDivider(
+                              color: Colors.white,
+                            ),
+                          ),
+                          spaceWidth(4),
+                          // Text(
+                          //   "₹ ${state.cart.map((e) => double.parse(e!.totalAmount)).toList().reduce((value, element) => value + element).toString()}",
+                          //   style: const TextStyle(
+                          //       fontSize: 15,
+                          //       fontWeight: FontWeight.w500,
+                          //       color: Colors.white),
+                          // )
+
+                          _buildTotalAmountWidget(state)
+                        ],
                       ),
                       TextButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          navigatorKey.currentState!.push(MaterialPageRoute(
+                            builder: (context) => const CartScreen(),
+                          ));
+                        },
                         icon: const Icon(
                           CupertinoIcons.bag,
                           color: Colors.white,
@@ -645,6 +645,23 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                 ),
               );
       },
+    );
+  }
+
+////
+
+  Widget _buildTotalAmountWidget(CartState state) {
+    double totalAmount = state.cart
+        .map((e) => double.parse(e!.totalAmount))
+        .toList()
+        .reduce((value, element) => value + element);
+    return Text(
+      "₹ ${totalAmount.toStringAsFixed(2)}",
+      style: const TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.w500,
+        color: Colors.white,
+      ),
     );
   }
 }

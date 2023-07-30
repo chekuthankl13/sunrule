@@ -71,12 +71,12 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
       List<CartModel?> currentList = List.from(state.cart);
       CartModel? productToUpdate =
-          currentList.firstWhere((element) => element!.id == event.id);
+          currentList.firstWhere((element) => element!.product.id == event.id);
       if (productToUpdate != null) {
         if (productToUpdate.qty == "1") {
           var res = await apiRepository.deleteCart(id: productToUpdate.id);
           if (res['status'] == "ok") {
-            var newState = currentList.removeWhere(
+            currentList.removeWhere(
                 (element) => element!.product.id == productToUpdate.product.id);
             emit(state.copyWith(cart: [
               ...currentList,
@@ -88,6 +88,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           }
         } else {
           productToUpdate.qty = (int.parse(productToUpdate.qty) - 1).toString();
+          productToUpdate.totalAmount =
+              ((double.parse(productToUpdate.product.price) *
+                      int.parse(productToUpdate.qty)))
+                  .toString();
 
           var res = await apiRepository.updateCart(
               id: productToUpdate.id,
@@ -96,7 +100,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
                       int.parse(productToUpdate.qty)))
                   .toString());
           if (res['status'] == "ok") {
-            emit(state.copyWith(cart: [...currentList, productToUpdate]));
+            // currentList
+            //     .removeWhere((element) => element!.id == productToUpdate.id);
+            // emit(state.copyWith(
+            //     cart: [...currentList, productToUpdate])); //[...currentList,]
+
+            var snap = res['data'] as List<CartModel>;
+            emit(state.copyWith(cart: [...snap]));
             loading.value = null;
           } else {
             log(res['message'], name: "error on update");
@@ -121,15 +131,25 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           currentList.firstWhere((element) => element!.product.id == event.id);
 
       if (productToUpdate != null) {
-        productToUpdate.qty = (int.parse(productToUpdate.qty) + 1).toString();
+        int newQty = int.parse(productToUpdate.qty) + 1;
+        double newTotalAmount =
+            double.parse(productToUpdate.product.price) * newQty;
+
         var res = await apiRepository.updateCart(
             id: productToUpdate.id,
-            qty: productToUpdate.qty.toString(),
-            price: ((double.parse(productToUpdate.product.price) *
-                    (int.parse(productToUpdate.qty)))
-                .toString()));
+            qty: newQty.toString(),
+            price: newTotalAmount.toString());
         if (res['status'] == "ok") {
-          emit(state.copyWith(cart: [...currentList, productToUpdate]));
+          // productToUpdate.qty = newQty.toString();
+          // productToUpdate.totalAmount = newTotalAmount.toString();
+          // log(currentList.map((e) => e).toString(), name: "current list");
+
+          var snap = res['data'] as List<CartModel>;
+
+          emit(state.copyWith(cart: [...snap]));
+
+          log("₹ ${state.cart.map((e) => double.parse(e!.totalAmount)).toList().reduce((value, element) => value + element).toString()}",
+              name: "total amount");
           loading.value = null;
         } else {
           log(res['message'], name: "update cart error");
