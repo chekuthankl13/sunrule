@@ -34,7 +34,9 @@ class MainApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) =>
-               CartBloc()
+               CartBloc(
+                apiRepository: context.read<ApiRepository>()
+               )..add(CartLoadEvent())
           )
         ],
       child: MaterialApp(

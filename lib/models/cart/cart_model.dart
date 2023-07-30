@@ -2,14 +2,19 @@ class CartModel {
   final CartPdt product;
   String qty;
   final String totalAmount;
+   String id;
 
   CartModel(
-      {required this.product, required this.qty, required this.totalAmount});
+      {required this.product, required this.qty, required this.totalAmount,required this.id});
 
   factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
       product: CartPdt.fromJson(json['product']),
+      id: json['id'],
       qty: json['qty'],
       totalAmount: json['total_amount']);
+
+  Map<String, dynamic> toJson() =>
+      {"product": product.toJson(), "qty": qty, "total_amount": totalAmount,"id":id};
 }
 
 class CartPdt {
@@ -39,4 +44,14 @@ class CartPdt {
         qty: json['qty'],
         price: json['price'],
       );
+
+  Map<String, dynamic> toJson() => {
+        "category_id": catId,
+        "subcategory_id": subCatId,
+        "id": id,
+        "txt": txt,
+        "img": img,
+        "qty": qty,
+        "price": price
+      };
 }

@@ -21,8 +21,6 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
   ValueNotifier<List<Product?>> products = ValueNotifier([]);
   ValueNotifier<int> subcategoryValue = ValueNotifier(0);
 
-
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DetailsCubit, DetailsState>(
@@ -51,6 +49,7 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
 
   Scaffold body(DetailsLoaded state) {
     return Scaffold(
+        bottomNavigationBar: btmNav(),
         backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
@@ -424,33 +423,38 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                                         qty:
                                                                             ""));
                                                               }),
-                                                              ValueListenableBuilder(valueListenable: loading,
-                                                               builder: (context, value, child) => value == data.id?
-                                                             const  CupertinoActivityIndicator(color: Colors.white,)
-                                                               :
-                                                                Text(
-                                                            state.cart
-                                                                .where((element) =>
-                                                                    element!
-                                                                        .product
-                                                                        .id ==
-                                                                    data.id)
-                                                                .toList()[0]!
-                                                                .qty
-                                                                .toString(),
-                                                            style: const TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 12),
-                                                          ),),
-                                                         
+                                                          ValueListenableBuilder(
+                                                            valueListenable:
+                                                                loading,
+                                                            builder: (context,
+                                                                    value,
+                                                                    child) =>
+                                                                value == data.id
+                                                                    ? const CupertinoActivityIndicator(
+                                                                        color: Colors
+                                                                            .white,
+                                                                      )
+                                                                    : Text(
+                                                                        state
+                                                                            .cart
+                                                                            .where((element) =>
+                                                                                element!.product.id ==
+                                                                                data.id)
+                                                                            .toList()[0]!
+                                                                            .qty
+                                                                            .toString(),
+                                                                        style: const TextStyle(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontWeight: FontWeight.bold,
+                                                                            fontSize: 12),
+                                                                      ),
+                                                          ),
                                                           btn(
                                                               ic: CupertinoIcons
                                                                   .add,
-                                                              onPressed: () async{
+                                                              onPressed:
+                                                                  () async {
                                                                 context
                                                                     .read<
                                                                         CartBloc>()
@@ -463,36 +467,69 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                                                         ],
                                                       ),
                                                     )
-                                                  : OutlinedButton(
-                                                      onPressed: () {
-                                                        context
-                                                            .read<CartBloc>()
-                                                            .add(CartAddEvent(
-                                                                pdt: data,
-                                                                qty: "1"));
-                                                      },
-                                                      style: OutlinedButton.styleFrom(
-                                                          foregroundColor:
-                                                              Colors.red,
-                                                          padding:
-                                                              const EdgeInsets.all(
-                                                                  0),
-                                                          minimumSize:
-                                                              const Size(
-                                                                  50, 30),
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8)),
-                                                          side:const BorderSide(
-                                                              color: Colors.red,
-                                                              width: 1)),
-                                                      child: const Text(
-                                                        "Add",
-                                                        style: TextStyle(
-                                                            fontSize: 12),
-                                                      ));
+                                                  : ValueListenableBuilder(
+                                                      valueListenable: loading,
+                                                      builder: (context, value, child) => value ==
+                                                              data.id
+                                                          ? OutlinedButton(
+                                                              onPressed: () {},
+                                                              style: OutlinedButton.styleFrom(
+                                                                  foregroundColor:
+                                                                      Colors
+                                                                          .red,
+                                                                  padding:
+                                                                      const EdgeInsets.all(
+                                                                          0),
+                                                                  minimumSize:
+                                                                      const Size(
+                                                                          50, 30),
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(8)),
+                                                                  side: const BorderSide(color: Colors.red, width: 1)),
+                                                              child: const CupertinoActivityIndicator(
+                                                                color:
+                                                                    Colors.red,
+                                                              ))
+                                                          : OutlinedButton(
+                                                              onPressed: () {
+                                                                context
+                                                                    .read<
+                                                                        CartBloc>()
+                                                                    .add(CartAddEvent(
+                                                                        pdt:
+                                                                            data,
+                                                                        qty:
+                                                                            "1"));
+                                                              },
+                                                              style: OutlinedButton.styleFrom(
+                                                                  foregroundColor:
+                                                                      Colors
+                                                                          .red,
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          0),
+                                                                  minimumSize:
+                                                                      const Size(
+                                                                          50,
+                                                                          30),
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8)),
+                                                                  side: const BorderSide(
+                                                                      color: Colors
+                                                                          .red,
+                                                                      width: 1)),
+                                                              child: const Text(
+                                                                "Add",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        12),
+                                                              ),
+                                                            ),
+                                                    );
                                             },
                                           )
                                         ],
@@ -530,6 +567,84 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
           color: Colors.white,
         ),
       ),
+    );
+  }
+
+  //// bottom nav bar
+
+  btmNav() {
+    return BlocBuilder<CartBloc, CartState>(
+      builder: (context, state) {
+        return state.cart.isEmpty
+            ? const SizedBox()
+            : BottomAppBar(
+                surfaceTintColor: Colors.transparent,
+                color: Colors.transparent,
+                height: kTextTabBarHeight + 20,
+                child: Container(
+                  height: kTextTabBarHeight,
+                  decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      BlocBuilder<CartBloc, CartState>(
+                        builder: (context, state) {
+                          return Row(
+                            children: [
+                              spaceWidth(10),
+                              Text(
+                                state.cart.length.toString(),
+                                style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
+                              ),
+                              spaceWidth(5),
+                              const Text(
+                                "Items",
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
+                              ),
+                              spaceWidth(4),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 8),
+                                child: VerticalDivider(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              spaceWidth(4),
+                              Text(
+                                "₹ ${state.cart.map((e) => double.parse(e!.totalAmount)).toList().reduce((value, element) => value + element).toString()}",
+                                style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                      TextButton.icon(
+                        onPressed: () {},
+                        icon: const Icon(
+                          CupertinoIcons.bag,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                        label: const Text(
+                          "View Cart",
+                          style: TextStyle(fontSize: 12, color: Colors.white),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              );
+      },
     );
   }
 }

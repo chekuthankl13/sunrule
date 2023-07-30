@@ -9,6 +9,15 @@ class Config {
 
   static const subCategoryRef = "subcategory";
 
+  static const userRef = "users";
+
+  static const cartRef = "cart";
+
+
+  static const userDocu = "3Bvrxhy4ZHAopHf1J0w1";
+
+
+
 
   /// color
 
