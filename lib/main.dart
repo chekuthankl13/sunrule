@@ -30,14 +30,13 @@ class MainApp extends StatelessWidget {
         //   create: (context) => SubjectRepository(),
         // ),
       ],
-      // child: MultiBlocProvider(
-      //   providers: [
-      //     BlocProvider(
-      //       create: (context) =>
-      //           CategoryCubit(apiRepository: context.read<ApiRepository>()),
-      //       child: Container(),
-      //     )
-      //   ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+               CartBloc()
+          )
+        ],
       child: MaterialApp(
         title: 'Sunrule',
         navigatorKey: navigatorKey,
@@ -50,7 +49,7 @@ class MainApp extends StatelessWidget {
         ),
         home: const SplashScreen(),
       ),
-      // ),
+      ),
     );
   }
 }
