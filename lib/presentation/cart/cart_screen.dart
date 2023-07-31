@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sunrule/config/config.dart';
+import 'package:sunrule/db/hive_helpers.dart';
 import 'package:sunrule/logic/bloc_export.dart';
 import 'package:sunrule/logic/maincart/main_cart_cubit.dart';
 import 'package:sunrule/models/cart/cart_model.dart';
@@ -408,15 +409,19 @@ class _CartScreenState extends State<CartScreen> {
                             fontSize: 12),
                       ),
                       spaceWidth(3),
-                      const Text(
-                        "- sri maruthi nillaya,j spiders builiuhuij",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 9, color: Colors.grey),
+                      Expanded(
+                        child: Text(
+                          "- ${HiveHelpers().getCredentials()!.address} ",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style:
+                              const TextStyle(fontSize: 9, color: Colors.grey),
+                        ),
                       )
                     ],
                   ),
                 ),
+                spaceWidth(3),
                 TextButton.icon(
                   onPressed: () {},
                   style: TextButton.styleFrom(

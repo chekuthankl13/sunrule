@@ -213,7 +213,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         imageUrl: data.img.isNotEmpty
                             ? data.img
                             : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1yq3IYQzQ8WsMghplkuU2HC2yTrgvXXipieWjlMnhaMn8WEW1qV-H8w0evI_HSMv2CNM&usqp=CAU",
-                        height: 100,
+                        height: 90,
                         fit: BoxFit.contain,
                         placeholder: (context, url) => const Center(
                           child: Icon(
