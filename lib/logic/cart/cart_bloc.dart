@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:sunrule/db/hive_helpers.dart';
 import 'package:sunrule/models/cart/cart_model.dart';
 import 'package:sunrule/models/category/category_detail_model.dart';
 import 'package:sunrule/repository/api_repository.dart';
@@ -46,7 +47,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           id: "",
           totalAmount: (double.parse(total) * int.parse(event.qty)).toString());
 
-      var res = await apiRepository.addToCart(cart: cart);
+      var res = await apiRepository.addToCart(cart: cart,userId: HiveHelpers().getCredentials()!.id);
 
       if (res['status'] == "200") {
         cart.id = res['id'];
@@ -74,7 +75,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
           currentList.firstWhere((element) => element!.product.id == event.id);
       if (productToUpdate != null) {
         if (productToUpdate.qty == "1") {
-          var res = await apiRepository.deleteCart(id: productToUpdate.id);
+          var res = await apiRepository.deleteCart(id: productToUpdate.id,userId: HiveHelpers().getCredentials()!.id);
           if (res['status'] == "ok") {
             currentList.removeWhere(
                 (element) => element!.product.id == productToUpdate.product.id);
@@ -94,6 +95,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
                   .toString();
 
           var res = await apiRepository.updateCart(
+            userId: HiveHelpers().getCredentials()!.id,
               id: productToUpdate.id,
               qty: productToUpdate.qty,
               price: ((double.parse(productToUpdate.product.price) *
@@ -136,6 +138,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
             double.parse(productToUpdate.product.price) * newQty;
 
         var res = await apiRepository.updateCart(
+          userId: HiveHelpers().getCredentials()!.id,
             id: productToUpdate.id,
             qty: newQty.toString(),
             price: newTotalAmount.toString());
@@ -166,7 +169,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       CartLoadEvent event, Emitter<CartState> emit) async {
     try {
       // List<CartModel?> currentList = List.from(state.cart);
-      var res = await apiRepository.intialLoadCart();
+      var res = await apiRepository.intialLoadCart(userId: HiveHelpers().getCredentials()!.id);
 
       if (res['status'] == "ok") {
         var data = res['data'] as List<CartModel>;

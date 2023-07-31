@@ -68,14 +68,14 @@ class ApiRepository {
 
   /// add to cart
 
-  addToCart({required CartModel cart}) async {
+  addToCart({required CartModel cart,required userId}) async {
     try {
       var cartSnapId = await userCollection
-          .doc(Config.userDocu)
+          .doc(userId)
           .collection(Config.cartRef)
           .add(cart.toJson());
       await userCollection
-          .doc(Config.userDocu)
+          .doc(userId)
           .collection(Config.cartRef)
           .doc(cartSnapId.id)
           .update({"id": cartSnapId.id});
@@ -90,10 +90,10 @@ class ApiRepository {
 
 //// update
 
-  updateCart({qty, price, id}) async {
+  updateCart({qty, price, id,required userId}) async {
     try {
       await userCollection
-          .doc(Config.userDocu)
+          .doc(userId)
           .collection(Config.cartRef)
           .doc(id)
           .update({"qty": qty, "total_amount": price});
@@ -113,10 +113,10 @@ class ApiRepository {
 
   /// delete
 
-  deleteCart({id}) async {
+  deleteCart({id,required userId}) async {
     try {
       await userCollection
-          .doc(Config.userDocu)
+          .doc(userId)
           .collection(Config.cartRef)
           .doc(id)
           .delete();
@@ -130,10 +130,10 @@ class ApiRepository {
 
   // inital load
 
-  intialLoadCart() async {
+  intialLoadCart({required userId}) async {
     try {
       var snap = await userCollection
-          .doc(Config.userDocu)
+          .doc(userId)
           .collection(Config.cartRef)
           .get()
           .then((value) =>
@@ -150,13 +150,51 @@ class ApiRepository {
 
   getCartStreams({required userRef}) async {
     try {
-      var snap = userCollection
-          .doc(userRef)
-          .collection(Config.cartRef)
-          .snapshots();
+      var snap =
+          userCollection.doc(userRef).collection(Config.cartRef).snapshots();
       var res = snap.map((event) =>
           event.docs.map((e) => CartModel.fromJson(e.data())).toList());
       return {"status": "ok", "data": res};
+    } on FirebaseException catch (e) {
+      return {"status": "failed", "message": e.toString()};
+    } catch (e) {
+      return {"status": "failed", "message": e.toString()};
+    }
+  }
+
+  /// user register
+
+  registerUser(
+      {required email, required psw, required name, required address}) async {
+    try {
+      var snap = await userCollection.add({
+        "name": name,
+        "email": email,
+        "address": address,
+        "password": psw,
+        "id": ""
+      });
+      await userCollection.doc(snap.id).update({"id": snap.id});
+      var data = await userCollection.doc(snap.id).get();
+      return {"status": "ok", "data": data};
+    } on FirebaseException catch (e) {
+      return {"status": "failed", "message": e.toString()};
+    } catch (e) {
+      return {"status": "failed", "message": e.toString()};
+    }
+  }
+
+  loginUser({required email, required psw}) async {
+    try {
+      var snap = await userCollection
+          .where("email", isEqualTo: email)
+          .where("password", isEqualTo: psw)
+          .get();
+      if (snap.docs.isNotEmpty) {
+        return {"status": "ok", "data": snap.docs[0]};
+      } else {
+        return {"status": "failed", "message": "Invalid credentials.."};
+      }
     } on FirebaseException catch (e) {
       return {"status": "failed", "message": e.toString()};
     } catch (e) {

@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sunrule/db/hive_helpers.dart';
+import 'package:sunrule/logic/bloc_export.dart';
+import 'package:sunrule/presentation/auth/login_screen.dart';
 import 'package:sunrule/presentation/home/home_screen.dart';
 import 'package:sunrule/utils/utils.dart';
 
@@ -16,11 +19,25 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Timer(const Duration(seconds: 3), () {
-      navigatorKey.currentState!.pushReplacement(
+      bool isUser = HiveHelpers.userBox.isEmpty;
+
+      if (isUser) {
+        navigatorKey.currentState!.pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => AuthCubit(apiRepository: context.read<ApiRepository>()),
+            child: const LoginScreen(),
+          ),
+        ),
+      );
+      } else {
+        navigatorKey.currentState!.pushReplacement(
         MaterialPageRoute(
           builder: (context) => const HomeScreen(),
         ),
       );
+      }
+      
     });
     super.initState();
   }

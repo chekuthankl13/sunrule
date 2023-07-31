@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sunrule/config/config.dart';
+import 'package:sunrule/db/hive_helpers.dart';
 import 'package:sunrule/repository/api_repository.dart';
 
 import '../../models/cart/cart_model.dart';
@@ -19,7 +20,8 @@ class MainCartCubit extends Cubit<MainCartState> {
   fetchCart() async {
     try {
       emit(MainCartLoading());
-      var snap = await apiRepository.getCartStreams(userRef: Config.userDocu);
+      var snap = await apiRepository.getCartStreams(
+          userRef: HiveHelpers().getCredentials()!.id);
       if (snap['status'] == "ok") {
         var cartStream = snap["data"] as Stream<List<CartModel>>;
         emit(MainCartLoaded(carts: cartStream));
@@ -35,7 +37,11 @@ class MainCartCubit extends Cubit<MainCartState> {
       String newQty = (int.parse(qty) + 1).toString();
       String newPrice =
           (int.parse(newQty) * double.parse(price)).toStringAsFixed(2);
-      await apiRepository.updateCart(id: id, price: newPrice, qty: newQty);
+      await apiRepository.updateCart(
+          id: id,
+          price: newPrice,
+          qty: newQty,
+          userId: HiveHelpers().getCredentials()!.id);
       cartLoading.value = null;
     } catch (e) {
       log(e.toString(), name: "error on stream increment");
@@ -47,14 +53,19 @@ class MainCartCubit extends Cubit<MainCartState> {
     try {
       if (qty == "1") {
         cartLoading.value = id;
-        await apiRepository.deleteCart(id: id);
+        await apiRepository.deleteCart(
+            id: id, userId: HiveHelpers().getCredentials()!.id);
         cartLoading.value = null;
       } else {
         cartLoading.value = id;
         String newQty = (int.parse(qty) - 1).toString();
         String newPrice =
             (int.parse(newQty) * double.parse(price)).toStringAsFixed(2);
-        await apiRepository.updateCart(id: id, price: newPrice, qty: newQty);
+        await apiRepository.updateCart(
+            id: id,
+            price: newPrice,
+            qty: newQty,
+            userId: HiveHelpers().getCredentials()!.id);
         cartLoading.value = null;
       }
     } catch (e) {
