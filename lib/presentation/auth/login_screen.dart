@@ -19,7 +19,7 @@ class LoginScreen extends StatefulWidget {
 TextEditingController usrCntr = TextEditingController();
 TextEditingController pswCntr = TextEditingController();
 
-GlobalKey<FormState> fkey = GlobalKey<FormState>();
+GlobalKey<FormState> flkey = GlobalKey<FormState>();
 
 class _LoginScreenState extends State<LoginScreen> {
   @override
@@ -54,13 +54,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(20)),
                 padding: const EdgeInsets.all(10),
                 child: Form(
-                  key: fkey,
+                  key: flkey,
                   child: ListView(
                     shrinkWrap: true,
                     children: [
                       spaceHeight(10),
                       fields(
-                          hint: "username",
+                          hint: "email",
                           isPsw: false,
                           ic: Icons.emoji_people_rounded,
                           cntr: usrCntr),
@@ -118,7 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                               return ElevatedButton(
                                 onPressed: () {
-                                  if (fkey.currentState!.validate()) {
+                                  if (flkey.currentState!.validate()) {
                                     context.read<AuthCubit>().loginUser(
                                         email:
                                             usrCntr.text.trim().toLowerCase(),

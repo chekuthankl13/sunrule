@@ -21,11 +21,13 @@ class CategoryLoadError extends CategoryState {
 
 class CategoryLoaded extends CategoryState {
   final List<CategoryModel> categories;
+  final List<CategoryModel> topcategories;
+
   final List<CategoryModel> twoCategories;
 
 
- const CategoryLoaded({required this.categories,required this.twoCategories});
+ const CategoryLoaded({required this.categories,required this.twoCategories,required this.topcategories});
 
   @override
-  List<Object> get props => [categories,twoCategories];
+  List<Object> get props => [categories,twoCategories,topcategories];
 }

@@ -17,8 +17,11 @@ class CategoryCubit extends Cubit<CategoryState> {
       if (res['status'] == "ok") {
         var data = res['data'] as List<CategoryModel>;
         var twoCat = data.sublist(0, 2);
+        var topCat = data.sublist(data.length - 2, data.length);
+
         data.removeRange(0, 2);
-        emit(CategoryLoaded(categories: data,twoCategories: twoCat));
+        emit(CategoryLoaded(
+            categories: data, twoCategories: twoCat, topcategories: topCat));
       } else {
         emit(CategoryLoadError(error: res['message']));
       }

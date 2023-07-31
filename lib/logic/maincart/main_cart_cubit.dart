@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sunrule/config/config.dart';
 import 'package:sunrule/db/hive_helpers.dart';
 import 'package:sunrule/repository/api_repository.dart';
 

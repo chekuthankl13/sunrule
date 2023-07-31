@@ -65,23 +65,73 @@ class _CategoryPageState extends State<CategoryPage> {
           spaceHeight(15),
 
           SizedBox(
-            height: 120,
+            height: 140,
             child: ListView.builder(
-              itemCount: 5,
+              itemCount: state.topcategories.length,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
-              itemBuilder: (context, index) => Container(
-                margin: const EdgeInsets.symmetric(horizontal: 5),
-                height: 120,
-                width: 90,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color:
-                      Color((math.Random().nextDouble() * 0xFF2196F3).toInt())
-                          .withOpacity(.2),
-                ),
-              ),
+              itemBuilder: (context, index) {
+                var data = state.topcategories[index];
+                return GestureDetector(
+                  onTap: () {
+                    navigatorKey.currentState!.push(
+                      MaterialPageRoute(
+                        builder: (context) => BlocProvider(
+                          create: (context) => DetailsCubit(
+                              apiRepository: context.read<ApiRepository>())
+                            ..loadDetails(id: data.id),
+                          child: CategoryDetailScreen(title: data.txt),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      // boxShadow: const [
+                      //   BoxShadow(color: Colors.black12, blurRadius: 1)
+                      // ]
+                      // gradient: LinearGradient(
+                      //   colors: [
+                      //     Config.bxClr1.withOpacity(.2),
+                      //     Config.bxClr2.withOpacity(.2),
+                      //   ],
+                      // ),
+                    ),
+                    child: Column(
+                      children: [
+                        spaceHeight(5),
+                        Text(
+                          data.txt.toString(),
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Config.violet2),
+                        ),
+                        CachedNetworkImage(
+                          imageUrl: data.img.isNotEmpty
+                              ? data.img
+                              : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1yq3IYQzQ8WsMghplkuU2HC2yTrgvXXipieWjlMnhaMn8WEW1qV-H8w0evI_HSMv2CNM&usqp=CAU",
+                          height: 100,
+                          fit: BoxFit.contain,
+                          placeholder: (context, url) => const Center(
+                            child: Icon(
+                              Icons.fastfood,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ),
 

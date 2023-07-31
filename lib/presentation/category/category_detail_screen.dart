@@ -255,288 +255,280 @@ class _CategoryDetailScreenState extends State<CategoryDetailScreen> {
                         ValueListenableBuilder(
                           valueListenable: products,
                           builder: (context, value, child) {
-                            return GridView.builder(
-                              physics: const ScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: value.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      mainAxisExtent: 220,
-                                      crossAxisSpacing: 5,
-                                      mainAxisSpacing: 4),
-                              itemBuilder: (context, index) {
-                                var data = value[index];
-                                return Container(
-                                  margin: EdgeInsets.zero,
-                                  // elevation: 1,
-                                  // surfaceTintColor: Colors.transparent,
-                                  // // shadowColor: Colors.transparent,
-                                  // shape: RoundedRectangleBorder(
-                                  //     borderRadius: BorderRadius.circular(10)),
-                                  color: Colors.white,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Stack(
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                const BorderRadius.only(
-                                              topLeft: Radius.circular(10),
-                                              topRight: Radius.circular(10),
-                                            ),
-                                            child: CachedNetworkImage(
-                                              imageUrl: data!.img.isNotEmpty
-                                                  ? data.img
-                                                  : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1yq3IYQzQ8WsMghplkuU2HC2yTrgvXXipieWjlMnhaMn8WEW1qV-H8w0evI_HSMv2CNM&usqp=CAU",
-                                              height: 120,
-                                              fit: BoxFit.contain,
-                                              placeholder: (context, url) =>
-                                                  const Icon(
-                                                Icons.fastfood,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                          data.offPercen.isEmpty
-                                              ? const SizedBox()
-                                              : Positioned(
-                                                  top: 0,
-                                                  left: 0,
-                                                  child: Container(
-                                                    height: 20,
-                                                    width: 50,
-                                                    decoration: const BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        10),
-                                                                bottomRight: Radius
-                                                                    .circular(
-                                                                        10)),
-                                                        color: Config.violet2),
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      "${data.offPercen} % Off",
-                                                      style: const TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 10),
+                            return value.isEmpty
+                                ? Image.asset(
+                                    "assets/images/empty.webp",
+                                    height: sH(context) / 2,
+                                    width: sW(context),
+                                    fit: BoxFit.contain,
+                                  )
+                                : GridView.builder(
+                                    physics: const ScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: value.length,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            mainAxisExtent: 220,
+                                            crossAxisSpacing: 5,
+                                            mainAxisSpacing: 4),
+                                    itemBuilder: (context, index) {
+                                      var data = value[index];
+                                      return Container(
+                                        margin: EdgeInsets.zero,
+                                        // elevation: 1,
+                                        // surfaceTintColor: Colors.transparent,
+                                        // // shadowColor: Colors.transparent,
+                                        // shape: RoundedRectangleBorder(
+                                        //     borderRadius: BorderRadius.circular(10)),
+                                        color: Colors.white,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Stack(
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(10),
+                                                    topRight:
+                                                        Radius.circular(10),
+                                                  ),
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: data!
+                                                            .img.isNotEmpty
+                                                        ? data.img
+                                                        : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1yq3IYQzQ8WsMghplkuU2HC2yTrgvXXipieWjlMnhaMn8WEW1qV-H8w0evI_HSMv2CNM&usqp=CAU",
+                                                    height: 120,
+                                                    fit: BoxFit.contain,
+                                                    placeholder:
+                                                        (context, url) =>
+                                                            const Icon(
+                                                      Icons.fastfood,
+                                                      color: Colors.grey,
                                                     ),
                                                   ),
                                                 ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              data.txt,
-                                              textAlign: TextAlign.center,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                  color: Config.shade,
-                                                  fontSize: 11,
-                                                  fontWeight: FontWeight.w500),
+                                                data.offPercen.isEmpty
+                                                    ? const SizedBox()
+                                                    : Positioned(
+                                                        top: 0,
+                                                        left: 0,
+                                                        child: Container(
+                                                          height: 20,
+                                                          width: 50,
+                                                          decoration: const BoxDecoration(
+                                                              borderRadius: BorderRadius.only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          10),
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                          10)),
+                                                              color: Config
+                                                                  .violet2),
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                            "${data.offPercen} % Off",
+                                                            style: const TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ),
+                                                      ),
+                                              ],
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      spaceHeight(4),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 3),
-                                        child: Text(
-                                          data.qty,
-                                          style: const TextStyle(
-                                              fontSize: 10, color: Colors.grey),
-                                        ),
-                                      ),
-                                      spaceHeight(3),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              data.offPrice.isEmpty
-                                                  ? const SizedBox()
-                                                  : Text(
-                                                      "₹ ${data.price}",
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    data.txt,
+                                                    textAlign: TextAlign.center,
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        color: Config.shade,
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            spaceHeight(4),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 3),
+                                              child: Text(
+                                                data.qty,
+                                                style: const TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.grey),
+                                              ),
+                                            ),
+                                            spaceHeight(3),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    data.offPrice.isEmpty
+                                                        ? const SizedBox()
+                                                        : Text(
+                                                            "₹ ${data.price}",
+                                                            style: const TextStyle(
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .lineThrough,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                color: Colors
+                                                                    .grey),
+                                                          ),
+                                                    spaceHeight(3),
+                                                    Text(
+                                                      "₹ ${data.offPrice.isEmpty ? data.price : data.offPrice}",
                                                       style: const TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .lineThrough,
                                                           fontSize: 12,
                                                           fontWeight:
-                                                              FontWeight.w400,
-                                                          color: Colors.grey),
-                                                    ),
-                                              spaceHeight(3),
-                                              Text(
-                                                "₹ ${data.offPrice.isEmpty ? data.price : data.offPrice}",
-                                                style: const TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black),
-                                              )
-                                            ],
-                                          ),
-                                          BlocBuilder<CartBloc, CartState>(
-                                            builder: (context, state) {
-                                              return state.cart
-                                                      .where((element) =>
-                                                          element!.product.id ==
-                                                          data.id)
-                                                      .toList()
-                                                      .isNotEmpty
-                                                  ? Container(
-                                                      height: 30,
-                                                      width: 70,
-                                                      // padding: EdgeInsets.zero,
-                                                      decoration: BoxDecoration(
-                                                          color: Config.red,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8)),
-                                                      child: Row(
-                                                        children: [
-                                                          btn(
-                                                              ic: CupertinoIcons
-                                                                  .minus,
-                                                              onPressed: () {
-                                                                context
-                                                                    .read<
-                                                                        CartBloc>()
-                                                                    .add(CartdecrementEvent(
-                                                                        id: data
-                                                                            .id,
-                                                                        qty:
-                                                                            ""));
-                                                              }),
-                                                          ValueListenableBuilder(
+                                                              FontWeight.bold,
+                                                          color: Colors.black),
+                                                    )
+                                                  ],
+                                                ),
+                                                BlocBuilder<CartBloc,
+                                                    CartState>(
+                                                  builder: (context, state) {
+                                                    return state.cart
+                                                            .where((element) =>
+                                                                element!.product
+                                                                    .id ==
+                                                                data.id)
+                                                            .toList()
+                                                            .isNotEmpty
+                                                        ? Container(
+                                                            height: 30,
+                                                            width: 70,
+                                                            // padding: EdgeInsets.zero,
+                                                            decoration: BoxDecoration(
+                                                                color:
+                                                                    Config.red,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8)),
+                                                            child: Row(
+                                                              children: [
+                                                                btn(
+                                                                    ic: CupertinoIcons
+                                                                        .minus,
+                                                                    onPressed:
+                                                                        () {
+                                                                      context.read<CartBloc>().add(CartdecrementEvent(
+                                                                          id: data
+                                                                              .id,
+                                                                          qty:
+                                                                              ""));
+                                                                    }),
+                                                                ValueListenableBuilder(
+                                                                  valueListenable:
+                                                                      loading,
+                                                                  builder: (context,
+                                                                          value,
+                                                                          child) =>
+                                                                      value ==
+                                                                              data.id
+                                                                          ? const CupertinoActivityIndicator(
+                                                                              color: Colors.white,
+                                                                            )
+                                                                          : Text(
+                                                                              state.cart.where((element) => element!.product.id == data.id).toList()[0]!.qty.toString(),
+                                                                              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                                                                            ),
+                                                                ),
+                                                                btn(
+                                                                    ic: CupertinoIcons
+                                                                        .add,
+                                                                    onPressed:
+                                                                        () async {
+                                                                      context.read<CartBloc>().add(CartIncrementEvent(
+                                                                          id: data
+                                                                              .id,
+                                                                          qty:
+                                                                              ""));
+                                                                    }),
+                                                              ],
+                                                            ),
+                                                          )
+                                                        : ValueListenableBuilder(
                                                             valueListenable:
                                                                 loading,
                                                             builder: (context,
                                                                     value,
                                                                     child) =>
                                                                 value == data.id
-                                                                    ? const CupertinoActivityIndicator(
-                                                                        color: Colors
-                                                                            .white,
-                                                                      )
-                                                                    : Text(
-                                                                        state
-                                                                            .cart
-                                                                            .where((element) =>
-                                                                                element!.product.id ==
-                                                                                data.id)
-                                                                            .toList()[0]!
-                                                                            .qty
-                                                                            .toString(),
-                                                                        style: const TextStyle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontWeight: FontWeight.bold,
-                                                                            fontSize: 12),
+                                                                    ? OutlinedButton(
+                                                                        onPressed:
+                                                                            () {},
+                                                                        style: OutlinedButton.styleFrom(
+                                                                            foregroundColor:
+                                                                                Config.red,
+                                                                            padding: const EdgeInsets.all(0),
+                                                                            minimumSize: const Size(50, 30),
+                                                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                                                            side: const BorderSide(color: Config.red, width: 1)),
+                                                                        child: const CupertinoActivityIndicator(
+                                                                          color:
+                                                                              Config.red,
+                                                                        ))
+                                                                    : OutlinedButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          context.read<CartBloc>().add(CartAddEvent(
+                                                                              pdt: data,
+                                                                              qty: "1"));
+                                                                        },
+                                                                        style: OutlinedButton.styleFrom(
+                                                                            foregroundColor: Config
+                                                                                .red,
+                                                                            padding: const EdgeInsets.all(
+                                                                                0),
+                                                                            minimumSize: const Size(50,
+                                                                                30),
+                                                                            shape:
+                                                                                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                                                            side: const BorderSide(color: Config.red, width: 1)),
+                                                                        child:
+                                                                            const Text(
+                                                                          "Add",
+                                                                          style:
+                                                                              TextStyle(fontSize: 12),
+                                                                        ),
                                                                       ),
-                                                          ),
-                                                          btn(
-                                                              ic: CupertinoIcons
-                                                                  .add,
-                                                              onPressed:
-                                                                  () async {
-                                                                context
-                                                                    .read<
-                                                                        CartBloc>()
-                                                                    .add(CartIncrementEvent(
-                                                                        id: data
-                                                                            .id,
-                                                                        qty:
-                                                                            ""));
-                                                              }),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  : ValueListenableBuilder(
-                                                      valueListenable: loading,
-                                                      builder: (context, value, child) => value ==
-                                                              data.id
-                                                          ? OutlinedButton(
-                                                              onPressed: () {},
-                                                              style: OutlinedButton.styleFrom(
-                                                                  foregroundColor:
-                                                                      Config
-                                                                          .red,
-                                                                  padding:
-                                                                      const EdgeInsets.all(
-                                                                          0),
-                                                                  minimumSize:
-                                                                      const Size(
-                                                                          50, 30),
-                                                                  shape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(8)),
-                                                                  side: const BorderSide(color: Config.red, width: 1)),
-                                                              child: const CupertinoActivityIndicator(
-                                                                color:
-                                                                    Config.red,
-                                                              ))
-                                                          : OutlinedButton(
-                                                              onPressed: () {
-                                                                context
-                                                                    .read<
-                                                                        CartBloc>()
-                                                                    .add(CartAddEvent(
-                                                                        pdt:
-                                                                            data,
-                                                                        qty:
-                                                                            "1"));
-                                                              },
-                                                              style: OutlinedButton.styleFrom(
-                                                                  foregroundColor:
-                                                                      Config
-                                                                          .red,
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                              .all(
-                                                                          0),
-                                                                  minimumSize:
-                                                                      const Size(
-                                                                          50,
-                                                                          30),
-                                                                  shape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8)),
-                                                                  side: const BorderSide(
-                                                                      color: Config
-                                                                          .red,
-                                                                      width: 1)),
-                                                              child: const Text(
-                                                                "Add",
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        12),
-                                                              ),
-                                                            ),
-                                                    );
-                                            },
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
+                                                          );
+                                                  },
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
                           },
                         )
                       ],
