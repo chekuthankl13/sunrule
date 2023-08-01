@@ -98,7 +98,7 @@ class ApiRepository {
           .doc(id)
           .update({"qty": qty, "total_amount": price});
       var snap = await userCollection
-          .doc(Config.userDocu)
+          .doc(userId)
           .collection(Config.cartRef)
           .get()
           .then((value) =>
