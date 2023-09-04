@@ -1,3 +1,3 @@
 # sunrule
 
-A new Flutter project.
+A shopping app using flutter and firebase.
